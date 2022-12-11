@@ -1,0 +1,303 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 1 to server version: 5.0.24-community-nt
+
+Type 'help;' or '\h' for help. Type '\c' to clear the buffer.
+
+mysql> create database dj;
+Query OK, 1 row affected (0.18 sec)
+
+mysql> create table t1(empid int,name varchar(10),dob DATE);
+ERROR 1046 (3D000): No database selected
+mysql> select dj;
+ERROR 1054 (42S22): Unknown column 'dj' in 'field list'
+mysql> select database dj;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dj' at line 1
+mysql> use dj;
+Database changed
+mysql> create table t2(empid int,name varchar(10),dob DATE);
+Query OK, 0 rows affected (1.53 sec)
+
+mysql> insert into t2 values(1,"Mayuri",2000/04/21);
+ERROR 1292 (22007): Incorrect date value: '24' for column 'dob' at row 1
+mysql> insert into t2 values(1,"Mayuri","2000-04-21");
+Query OK, 1 row affected (0.05 sec)
+
+mysql> insert into t2 values(2,"Neha","2000-09-21");
+Query OK, 1 row affected (0.90 sec)
+
+mysql> insert into t2 values(3,"Pooja","2010-2-11");
+Query OK, 1 row affected (0.23 sec)
+
+mysql> insert into t2 values(4,"Ashwini","2011-5-19");
+Query OK, 1 row affected (0.12 sec)
+
+mysql> select*from t2;
++-------+---------+------------+
+| empid | name    | dob        |
++-------+---------+------------+
+|     1 | Mayuri  | 2000-04-21 |
+|     2 | Neha    | 2000-09-21 |
+|     3 | Pooja   | 2010-02-11 |
+|     4 | Ashwini | 2011-05-19 |
++-------+---------+------------+
+4 rows in set (0.46 sec)
+
+mysql> Alter table t2 ADD mob_no int;
+Query OK, 4 rows affected (0.43 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> show table t2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 't2' at line 1
+mysql> show dj;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dj' at line 1
+mysql> show t2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 't2' at line 1
+mysql> select*from t2;
++-------+---------+------------+--------+
+| empid | name    | dob        | mob_no |
++-------+---------+------------+--------+
+|     1 | Mayuri  | 2000-04-21 |   NULL |
+|     2 | Neha    | 2000-09-21 |   NULL |
+|     3 | Pooja   | 2010-02-11 |   NULL |
+|     4 | Ashwini | 2011-05-19 |   NULL |
++-------+---------+------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> use dj;
+Database changed
+mysql> create table t3(fname varchar(10),lname varchar(10),roll int NOT NULL UNIQUE,Age int PRIMARY KEY);
+Query OK, 0 rows affected (0.09 sec)
+
+mysql> select*from t3;
+Empty set (0.00 sec)
+
+mysql> desc t3;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| fname | varchar(10) | YES  |     | NULL    |       |
+| lname | varchar(10) | YES  |     | NULL    |       |
+| roll  | int(11)     | NO   | UNI |         |       |
+| Age   | int(11)     | NO   | PRI |         |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.14 sec)
+
+mysql> Alter table t3 ADD Add varchar(30) PRIMARY KEY UNIQUE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Add varchar(30) PRIMARY KEY UNIQUE' at line 1
+mysql> Alter table t3 ADD Add varchar(30) PRIMARY KEY;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Add varchar(30) PRIMARY KEY' at line 1
+mysql> Alter table t3 ADD Address varchar(100);
+Query OK, 0 rows affected (0.37 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> Alter table t3 ADD PRIMARY KEY (Address);
+ERROR 1068 (42000): Multiple primary key defined
+mysql> Alter table t3 ADD UNIQUE (Address);
+Query OK, 0 rows affected (0.20 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc t3;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| fname   | varchar(10)  | YES  |     | NULL    |       |
+| lname   | varchar(10)  | YES  |     | NULL    |       |
+| roll    | int(11)      | NO   | UNI |         |       |
+| Age     | int(11)      | NO   | PRI |         |       |
+| Address | varchar(100) | YES  | UNI | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+5 rows in set (0.03 sec)
+
+mysql> Alter table t3 ADD CHECK (Age>=18);
+Query OK, 0 rows affected (0.20 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc t3;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| fname   | varchar(10)  | YES  |     | NULL    |       |
+| lname   | varchar(10)  | YES  |     | NULL    |       |
+| roll    | int(11)      | NO   | UNI |         |       |
+| Age     | int(11)      | NO   | PRI |         |       |
+| Address | varchar(100) | YES  | UNI | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> Alter table t3Alter fname SET DEFAULT 'Mayuri';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'fname SET DEFAULT 'Mayuri'' at line 1
+mysql> Alter table t3 Alter fname SET DEFAULT 'Mayuri';
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc t3;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| fname   | varchar(10)  | YES  |     | Mayuri  |       |
+| lname   | varchar(10)  | YES  |     | NULL    |       |
+| roll    | int(11)      | NO   | UNI |         |       |
+| Age     | int(11)      | NO   | PRI |         |       |
+| Address | varchar(100) | YES  | UNI | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+5 rows in set (0.02 sec)
+
+mysql> Create INDEX idx_fname,idx_lname on t3(fname,lname);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'idx_lname on t3(fname,lname)' at line 1
+mysql> Create INDEX idx_fname on t3 (fname,lname);
+Query OK, 0 rows affected (0.28 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc t3;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| fname   | varchar(10)  | YES  | MUL | Mayuri  |       |
+| lname   | varchar(10)  | YES  |     | NULL    |       |
+| roll    | int(11)      | NO   | UNI |         |       |
+| Age     | int(11)      | NO   | PRI |         |       |
+| Address | varchar(100) | YES  | UNI | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> use dj;
+Database changed
+mysql> select DISTINCT name,dob from t2;
++---------+------------+
+| name    | dob        |
++---------+------------+
+| Mayuri  | 2000-04-21 |
+| Neha    | 2000-09-21 |
+| Pooja   | 2010-02-11 |
+| Ashwini | 2011-05-19 |
++---------+------------+
+4 rows in set (0.12 sec)
+
+mysql> select*from t2 WHERE name="Mayuri";
++-------+--------+------------+--------+
+| empid | name   | dob        | mob_no |
++-------+--------+------------+--------+
+|     1 | Mayuri | 2000-04-21 |   NULL |
++-------+--------+------------+--------+
+1 row in set (0.00 sec)
+
+mysql> select name from t2 WHERE dob>"2000-01-01";
++---------+
+| name    |
++---------+
+| Mayuri  |
+| Neha    |
+| Pooja   |
+| Ashwini |
++---------+
+4 rows in set (0.00 sec)
+
+mysql> select *from t2 ORDER BY name;
++-------+---------+------------+--------+
+| empid | name    | dob        | mob_no |
++-------+---------+------------+--------+
+|     4 | Ashwini | 2011-05-19 |   NULL |
+|     1 | Mayuri  | 2000-04-21 |   NULL |
+|     2 | Neha    | 2000-09-21 |   NULL |
+|     3 | Pooja   | 2010-02-11 |   NULL |
++-------+---------+------------+--------+
+4 rows in set (0.04 sec)
+
+mysql> select * from t2 ORDER BY dob;
++-------+---------+------------+--------+
+| empid | name    | dob        | mob_no |
++-------+---------+------------+--------+
+|     1 | Mayuri  | 2000-04-21 |   NULL |
+|     2 | Neha    | 2000-09-21 |   NULL |
+|     3 | Pooja   | 2010-02-11 |   NULL |
+|     4 | Ashwini | 2011-05-19 |   NULL |
++-------+---------+------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select * from t2 ORDER BY name DESC;
++-------+---------+------------+--------+
+| empid | name    | dob        | mob_no |
++-------+---------+------------+--------+
+|     3 | Pooja   | 2010-02-11 |   NULL |
+|     2 | Neha    | 2000-09-21 |   NULL |
+|     1 | Mayuri  | 2000-04-21 |   NULL |
+|     4 | Ashwini | 2011-05-19 |   NULL |
++-------+---------+------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> update t2 SET name="Rekha",mob=89076 WHERE empid=3;
+ERROR 1054 (42S22): Unknown column 'mob' in 'field list'
+mysql> update t2 SET name="Rekha",mob_no=89076 WHERE empid=3;
+Query OK, 1 row affected (0.11 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> update t2 SET mob_no=67890435;
+Query OK, 4 rows affected (0.03 sec)
+Rows matched: 4  Changed: 4  Warnings: 0
+
+mysql> select *from t2;
++-------+---------+------------+----------+
+| empid | name    | dob        | mob_no   |
++-------+---------+------------+----------+
+|     1 | Mayuri  | 2000-04-21 | 67890435 |
+|     2 | Neha    | 2000-09-21 | 67890435 |
+|     3 | Rekha   | 2010-02-11 | 67890435 |
+|     4 | Ashwini | 2011-05-19 | 67890435 |
++-------+---------+------------+----------+
+4 rows in set (0.00 sec)
+
+mysql> delete from t2 WHERE name="Neha";
+Query OK, 1 row affected (0.12 sec)
+
+mysql> selelct* from t2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'selelct* from t2' at line 1
+mysql> select* from t2;
++-------+---------+------------+----------+
+| empid | name    | dob        | mob_no   |
++-------+---------+------------+----------+
+|     1 | Mayuri  | 2000-04-21 | 67890435 |
+|     3 | Rekha   | 2010-02-11 | 67890435 |
+|     4 | Ashwini | 2011-05-19 | 67890435 |
++-------+---------+------------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select top 2* from t2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '2* from t2' at line 1
+mysql> select *from t2 LIMIT 2;
++-------+--------+------------+----------+
+| empid | name   | dob        | mob_no   |
++-------+--------+------------+----------+
+|     1 | Mayuri | 2000-04-21 | 67890435 |
+|     3 | Rekha  | 2010-02-11 | 67890435 |
++-------+--------+------------+----------+
+2 rows in set (0.00 sec)
+
+mysql>
+mysql> select MIN(dob) from t2 where empid>=1;
++------------+
+| MIN(dob)   |
++------------+
+| 2000-04-21 |
++------------+
+1 row in set (0.04 sec)
+
+mysql> select MAX(mob_no) from t2 where dob>="2000-01-01";
++-------------+
+| MAX(mob_no) |
++-------------+
+|    67890435 |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> select COUNT(mob_no) from t2 where empid>1;
++---------------+
+| COUNT(mob_no) |
++---------------+
+|             2 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> select COUNT(name) from t2 where mob_no NOT NULL;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'NULL' at line 1
+mysql>
